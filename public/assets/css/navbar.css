@@ -1,0 +1,371 @@
+@font-face {
+  font-family: "TT Norms";
+  src: url("../fonts/tt-norms-regular.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+:root {
+    --twill-nav-height: 80px;
+    --twill-nav-height-mobile: 70px;
+    --twill-color-primary: #111827;
+    --twill-color-secondary: #4b5563;
+    --twill-color-accent: #c5a059;
+    --twill-color-accent-light: #dfc185;
+    --twill-color-white: #ffffff;
+    --twill-color-light: #f9fafb;
+    --twill-color-off-white: #fafafa;
+    --twill-transition-speed: 0.3s;
+    --twill-transition-slow: 0.4s;
+}
+
+/* =========================================
+   2. Base Navbar Styles
+   ========================================= */
+.twill-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--twill-nav-height);
+    background: transparent;
+    z-index: 1000;
+    padding-top: 15px;  /* Tambahkan ini */
+
+    transition: background var(--twill-transition-slow) ease, 
+                height var(--twill-transition-speed) ease,
+                box-shadow var(--twill-transition-slow) ease;
+}
+
+/* State: Scrolled */
+.twill-navbar.scrolled {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgb(255, 255, 255);
+}
+
+.twill-navbar-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+/* =========================================
+   3. Logo Styling
+   ========================================= */
+.twill-navbar-brand {
+    display: flex;
+    align-items: center;
+    z-index: 1001;
+    text-decoration: none;
+}
+
+.twill-navbar-logo {
+    height: 45px;
+    width: auto;
+     transition: transform var(--twill-transition-speed);
+    /* White glow yang lebih intense */
+    filter:drop-shadow(0px 0px 8px rgba(255, 255, 255, 0.9))
+    drop-shadow(0px 0px 3px rgba(255, 255, 255, 1));
+}
+
+/* Remove shadow when scrolled (white bg) */
+.twill-navbar.scrolled .twill-navbar-logo {
+    filter: none;
+}
+
+.twill-navbar-brand:hover .twill-navbar-logo {
+    transform: scale(1.02);
+}
+
+.twill-navbar-nav {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.twill-nav-link {
+    color: var(--twill-color-white);
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    text-decoration: none;
+    position: relative;
+    padding: 8px 0;
+    transition: color var(--twill-transition-speed);
+}
+
+/* Hover Effect: Underline */
+.twill-nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 50%;
+    background-color: var(--twill-color-accent);
+    transition: width var(--twill-transition-speed) ease, left var(--twill-transition-speed) ease;
+}
+
+.twill-nav-link:hover::after {
+    width: 100%;
+    left: 0;
+}
+
+/* Scrolled State Text Color */
+.twill-navbar.scrolled .twill-nav-link {
+    color: var(--twill-color-primary);
+}
+
+.twill-navbar.scrolled .twill-nav-link:hover {
+    color: var(--twill-color-accent);
+}
+
+.twill-nav-link:hover {
+    color: var(--twill-color-accent);
+}
+
+/* Admin Link Special Style */
+.twill-nav-link-admin {
+    color: var(--twill-color-accent) !important;
+    font-weight: 700;
+    border: 1px solid var(--twill-color-accent);
+    padding: 6px 16px !important;
+    border-radius: 50px;
+    margin-left: 10px;
+}
+
+.twill-nav-link-admin:hover {
+    background: var(--twill-color-accent);
+    color: var(--twill-color-white) !important;
+}
+.twill-nav-link-admin::after { display: none; }
+
+
+.twill-lang-switcher {
+    margin-left: 15px;
+    padding-left: 15px;
+    border-left: 1px solid rgba(255,255,255,0.3);
+}
+
+.twill-navbar.scrolled .twill-lang-switcher {
+    border-left: 1px solid rgba(0,0,0,0.15);
+}
+
+.twill-lang-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.twill-lang-option {
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.twill-lang-option.active {
+    color: var(--twill-color-accent);
+}
+
+.twill-lang-option:hover {
+    color: var(--twill-color-accent);
+}
+
+.twill-lang-separator {
+    color: rgba(255,255,255,0.3);
+    font-size: 12px;
+}
+
+.twill-navbar.scrolled .twill-lang-option { 
+    color: var(--twill-color-secondary); 
+}
+
+.twill-navbar.scrolled .twill-lang-option.active { 
+    color: var(--twill-color-accent); 
+}
+
+.twill-navbar.scrolled .twill-lang-option:hover { 
+    color: var(--twill-color-accent); 
+}
+
+.twill-navbar.scrolled .twill-lang-separator { 
+    color: #d1d5db; 
+}
+
+/* =========================================
+   6. Mobile Toggle (Hamburger)
+   ========================================= */
+.twill-navbar-toggler {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 21px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 1001;
+}
+
+.twill-bar {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: var(--twill-color-white);
+    border-radius: 2px;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Toggle Icon Animation when Active */
+.twill-navbar-toggler.active .twill-bar:nth-child(1) {
+    transform: translateY(9.5px) rotate(45deg);
+    background-color: var(--twill-color-primary);
+}
+
+.twill-navbar-toggler.active .twill-bar:nth-child(2) {
+    opacity: 0;
+}
+
+.twill-navbar-toggler.active .twill-bar:nth-child(3) {
+    transform: translateY(-9.5px) rotate(-45deg);
+    background-color: var(--twill-color-primary);
+}
+
+/* =========================================
+   7. Mobile Menu & Overlay
+   ========================================= */
+.twill-navbar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 998;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(4px);
+}
+
+.twill-navbar-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* =========================================
+   8. Responsive Styles (Mobile)
+   ========================================= */
+@media (max-width: 992px) {
+    .twill-navbar-toggler {
+        display: flex;
+    }
+
+    .twill-navbar.scrolled .twill-navbar-toggler .twill-bar {
+        background-color: var(--twill-color-primary);
+    }
+
+    .twill-navbar-toggler.active .twill-bar {
+        background-color: var(--twill-color-primary); 
+    }
+
+    .twill-navbar-nav {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 85%;
+        max-width: 400px;
+        height: 100vh;
+        background-color: var(--twill-color-white);
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        padding: 100px 30px 30px 30px;
+        gap: 20px;
+        box-shadow: -5px 0 20px rgba(0,0,0,0.12);
+        transition: right 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+        z-index: 999;
+        overflow-y: auto;
+    }
+
+    .twill-navbar-nav.active {
+        right: 0;
+    }
+
+    .twill-nav-item {
+        width: 100%;
+        border-bottom: 1px solid var(--twill-color-secondary);
+    }
+
+    .twill-nav-item:last-child {
+        border-bottom: none;
+    }
+
+    .twill-nav-link {
+        display: block;
+        width: 100%;
+        color: var(--twill-color-primary) !important;
+        font-size: 16px;
+        padding: 15px 0;
+    }
+
+    .twill-nav-link::after {
+        display: none;
+    }
+    
+    .twill-nav-link-admin {
+        display: inline-block;
+        width: auto;
+        margin-top: 10px;
+        border: 1px solid var(--twill-color-accent);
+    }
+
+    .twill-lang-switcher {
+        border-left: none;
+        margin-top: 20px;
+        padding-left: 0;
+        width: 100%;
+        border-bottom: none !important;
+    }
+    
+    .twill-lang-wrapper {
+        justify-content: center;
+        background: var(--twill-color-secondary);
+        padding: 12px;
+        border-radius: 8px;
+        width: 100%;
+    }
+}
+
+@media (max-width: 576px) {
+    .twill-navbar-container {
+        padding: 0 16px;
+    }
+
+    .twill-navbar-logo {
+        height: 40px;
+    }
+
+    .twill-navbar-nav {
+        width: 90%;
+        padding: 90px 20px 30px 20px;
+    }
+
+    .twill-nav-link {
+        font-size: 15px;
+    }
+}

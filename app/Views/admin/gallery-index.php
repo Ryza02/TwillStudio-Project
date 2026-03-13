@@ -8,32 +8,78 @@
 
 <?= $this->section('content'); ?>
 
+<?php
+$lang = session()->get('lang') ?? session()->get('locale') ?? service('request')->getLocale();
+$lang = strtolower(substr($lang, 0, 2));
+
+$ui = [
+    'id' => [
+        'page_title' => 'Manajemen Galeri',
+        'page_subtitle' => 'Pilih project untuk mengelola foto galeri detail.',
+        'manage_btn' => 'Kelola Galeri',
+        'no_image' => 'Tidak Ada Gambar',
+        'no_project' => 'Belum Ada Project',
+        'no_project_desc' => 'Silakan buat project baru terlebih dahulu',
+        'add_btn' => 'Tambah Project'
+    ],
+    'en' => [
+        'page_title' => 'Gallery Management',
+        'page_subtitle' => 'Select a project to manage its gallery photos.',
+        'manage_btn' => 'Manage Gallery',
+        'no_image' => 'No Image',
+        'no_project' => 'No Projects Yet',
+        'no_project_desc' => 'Please create a new project first',
+        'add_btn' => 'Add Project'
+    ],
+    'it' => [
+        'page_title' => 'Gestione Galleria',
+        'page_subtitle' => 'Seleziona un progetto per gestire le foto della galleria.',
+        'manage_btn' => 'Gestisci Galleria',
+        'no_image' => 'Nessuna Immagine',
+        'no_project' => 'Nessun Progetto',
+        'no_project_desc' => 'Crea prima un nuovo progetto per favore',
+        'add_btn' => 'Aggiungi Progetto'
+    ]
+];
+
+$t = $ui[$lang] ?? $ui['id'];
+?>
+
 <div class="page-header">
     <div>
-        <h2 class="page-title">Manajemen Galeri</h2>
-        <p class="page-subtitle">Pilih project untuk mengelola foto galeri detail.</p>
+        <h2 class="page-title"><?= esc($t['page_title']); ?></h2>
+        <p class="page-subtitle"><?= esc($t['page_subtitle']); ?></p>
     </div>
 </div>
 
 <div class="projects-grid">
     <?php if (!empty($projects)): ?>
         <?php foreach ($projects as $proj): ?>
+            <?php
+            $displayTitle = $proj['title_id'] ?? ($proj['title'] ?? 'Tanpa Judul');
+
+            if ($lang === 'en' && !empty($proj['title_en'])) {
+                $displayTitle = $proj['title_en'];
+            } elseif ($lang === 'it' && !empty($proj['title_it'])) {
+                $displayTitle = $proj['title_it'];
+            }
+            ?>
             <div class="project-card">
                 <div class="project-card-image">
                     <?php if (!empty($proj['image_url']) && is_file(FCPATH . $proj['image_url'])): ?>
-                        <img src="<?= base_url(esc($proj['image_url'])); ?>" alt="<?= esc($proj['title_id'] ?? $proj['title']); ?>">
+                        <img src="<?= base_url(esc($proj['image_url'])); ?>" alt="<?= esc($displayTitle); ?>">
                     <?php else: ?>
                         <div class="no-image">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                             </svg>
-                            <span>No Image</span>
+                            <span><?= esc($t['no_image']); ?></span>
                         </div>
                     <?php endif; ?>
                 </div>
                 <div class="project-card-content">
                     <div>
-                        <h3 class="project-card-title"><?= esc($proj['title_id'] ?? $proj['title']); ?></h3>
+                        <h3 class="project-card-title"><?= esc($displayTitle); ?></h3>
                         <p class="project-card-location">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width: 14px; height: 14px; display: inline; vertical-align: middle; margin-right: 4px;">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
@@ -46,7 +92,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                         </svg>
-                        Kelola Galeri
+                        <?= esc($t['manage_btn']); ?>
                     </a>
                 </div>
             </div>
@@ -58,13 +104,13 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                 </svg>
             </div>
-            <h4 class="empty-state-title">Belum Ada Project</h4>
-            <p class="empty-state-desc">Silakan buat project baru terlebih dahulu</p>
+            <h4 class="empty-state-title"><?= esc($t['no_project']); ?></h4>
+            <p class="empty-state-desc"><?= esc($t['no_project_desc']); ?></p>
             <a href="<?= base_url('admin/project/create'); ?>" class="btn btn-primary">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
                 </svg>
-                Tambah Project
+                <?= esc($t['add_btn']); ?>
             </a>
         </div>
     <?php endif; ?>

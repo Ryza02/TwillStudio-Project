@@ -86,27 +86,48 @@ class Admin extends BaseController
 
         return view('admin/dashboard', $data);
     }
+
     public function translate()
     {
-        $json = $this->request->getJSON();
+        $json = $this->request->getJSON(true);
         if (!$json) {
             return $this->response->setJSON(['success' => false, 'message' => 'No data provided']);
         }
 
+        $targetLang = $this->request->getGet('lang') ?? 'en';
+        
+        if (isset($json['target_lang'])) {
+            $targetLang = $json['target_lang'];
+            unset($json['target_lang']); 
+        }
+
         $results = [];
         try {
+            $context = stream_context_create([
+                "http" => [
+                    "header" => "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64)\r\n"
+                ]
+            ]);
+
             foreach ($json as $key => $text) {
                 if (!empty($text)) {
-                    $url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=id&tl=en&dt=t&q=" . urlencode($text);
-                    $res = file_get_contents($url);
-                    $resArray = json_decode($res);
-
-                    $translatedText = "";
-                    foreach ($resArray[0] as $part) {
-                        $translatedText .= $part[0];
+                    $url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=id&tl=" . urlencode($targetLang) . "&dt=t&q=" . urlencode($text);
+                    $res = file_get_contents($url, false, $context);
+                    
+                    if ($res === false) {
+                        throw new \Exception("Gagal menghubungi server terjemahan Google.");
                     }
 
-                    $results[$key] = $translatedText;
+                    $resArray = json_decode($res);
+                    $translatedText = "";
+                    
+                    if (isset($resArray[0]) && is_array($resArray[0])) {
+                        foreach ($resArray[0] as $part) {
+                            $translatedText .= $part[0];
+                        }
+                    }
+
+                    $results[$key] = trim($translatedText);
                 } else {
                     $results[$key] = "";
                 }

@@ -6,6 +6,8 @@ use App\Models\ProjectModel;
 use App\Models\ProjectGalleryModel;
 use App\Models\BlogModel;
 use App\Models\CategoryModel;
+use App\Models\AboutHeroModel;
+use App\Models\AboutItemModel;
 
 class Home extends BaseController
 {
@@ -44,7 +46,7 @@ class Home extends BaseController
         }
 
         return view('frontend/home', [
-            'title'    => 'Beranda | TWILL Architecture',
+            'title'    => 'Beranda | TWILL Studio',
             'projects' => $projects,
             'lang'     => $lang
         ]);
@@ -52,10 +54,15 @@ class Home extends BaseController
 
     public function about()
     {
-        return view('frontend/about', [
-            'title' => 'Tentang Kami | TWILL Architecture',
-            'lang'  => session()->get('lang') ?? 'id'
-        ]);
+        $heroModel = new AboutHeroModel();
+        $itemModel = new AboutItemModel();
+
+        $data = [
+            'hero'  => $heroModel->find(1), // Ambil data teks hero (atas)
+            'items' => $itemModel->orderBy('sort_order', 'ASC')->findAll() // Ambil semua data gambar dan urutkan
+        ];
+
+        return view('frontend/about', $data);
     }
 
     public function projects()
@@ -67,7 +74,7 @@ class Home extends BaseController
         $categories = $categoryModel->findAll();
 
         return view('frontend/projects', [
-            'title'      => 'Portfolio Kami | TWILL Architecture',
+            'title'      => 'Portfolio Kami | TWILL Studio',
             'projects'   => $projects,
             'categories' => $categories,
             'lang'       => session()->get('lang') ?? 'id'
@@ -76,8 +83,8 @@ class Home extends BaseController
 
     public function projectDetail($id)
     {
-        $projectModel = new ProjectModel();
-        $galleryModel = new ProjectGalleryModel();
+        $projectModel = new \App\Models\ProjectModel();
+        $galleryModel = new \App\Models\ProjectGalleryModel();
         $lang = session()->get('lang') ?? 'id';
 
         $project = $projectModel->find($id);
@@ -88,10 +95,12 @@ class Home extends BaseController
 
         $pageTitle = ($lang === 'id') ? $project['title_id'] : $project['title_en'];
 
-        $galleries = $galleryModel->where('project_id', $id)->findAll();
+        $galleries = $galleryModel->where('project_id', $id)
+            ->orderBy('sort_order', 'ASC')
+            ->findAll();
 
         return view('frontend/project-detail', [
-            'title'     => $pageTitle . ' | TWILL Architecture',
+            'title'     => $pageTitle . ' | TWILL Studio',
             'project'   => $project,
             'galleries' => $galleries,
             'lang'      => $lang
@@ -115,7 +124,7 @@ class Home extends BaseController
         }
 
         return view('frontend/blog', [
-            'title'         => 'Blog & Berita | TWILL Architecture',
+            'title'         => 'Blog & Berita | TWILL Studio',
             'featured_blog' => $featured_blog,
             'blogs'         => $blogs,
             'lang'          => $lang
@@ -136,7 +145,7 @@ class Home extends BaseController
         $pageTitle = ($lang === 'id') ? $blog['title'] : $blog['title_en'];
 
         return view('frontend/blog-detail', [
-            'title' => $pageTitle . ' | TWILL Architecture',
+            'title' => $pageTitle . ' | TWILL Studio',
             'blog'  => $blog,
             'lang'  => $lang
         ]);
@@ -145,7 +154,7 @@ class Home extends BaseController
     public function contact()
     {
         return view('frontend/contact', [
-            'title' => 'Hubungi Kami | TWILL Architecture',
+            'title' => 'Hubungi Kami | TWILL Studio',
             'lang'  => session()->get('lang') ?? 'id'
         ]);
     }

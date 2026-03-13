@@ -8,6 +8,11 @@ class CategoryModel extends Model
 {
     protected $table            = 'categories';
     protected $primaryKey       = 'id';
-    protected $allowedFields    = ['name', 'slug'];
+    protected $allowedFields    = [
+        'name',
+        'name_en',
+        'name_it',
+        'slug'
+    ];
     protected $returnType       = 'array';
 }

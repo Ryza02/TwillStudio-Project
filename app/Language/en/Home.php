@@ -1,15 +1,9 @@
 <?php
 return [
-    'hero_1_title'    => 'TWILLSTUDIO.',
-    'hero_1_subtitle' => 'Interwoven Precision & Elegance',
-    'hero_2_title'    => 'INNOVATION',
-    'hero_2_subtitle' => 'Crafting Visions into Reality',
-    'hero_3_title'    => 'DESIGN',
-    'hero_3_subtitle' => 'Bringing Details to Perfection',
-    
-    'about_label'     => 'Philosophy',
-    'about_title'     => 'Interwoven Precision in Design',
-    'about_desc'      => 'Twill Studio is an architectural firm that believes that precise design is born from the interweaving of function, aesthetics, and sustainability. We bring your vision to life through a detailed, technical approach.',
+    'title_up'      => 'Home',
+    'about_label'     => 'INTRODUCTION',
+    'about_title'     => 'Interlacing the Architecture, Threading the Function, Binding the Values.',
+    'about_desc'      => 'Twill Studio is a young architecture studio based in Bandung, Indonesia. Twill is a thread between client and space weaving each vision into form with precision and care.',
     'about_btn'       => 'Read Our Story',
     'flipbook_hint'   => '&larr; Tap to open our Portfolio &rarr;',
     

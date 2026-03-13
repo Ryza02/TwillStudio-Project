@@ -1,0 +1,217 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,700&family=TT+Norms+Pro:wght@300;400;500;600;700&display=swap');
+
+@font-face {
+  font-family: "TT Norms";
+  src: url('../fonts/tt-norms-regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+body, html, main, .main-wrapper, #app { 
+    padding-top: 0 !important; 
+    margin-top: 0 !important; 
+    background-color: #f9f9f9; 
+    color: #111827;
+}
+
+header, .navbar, .nav-header, #header {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    z-index: 9999 !important;
+    transition: all 0.4s ease-in-out !important;
+}
+
+.nav-scrolled {
+    backdrop-filter: blur(10px);
+    background-color: rgba(0,0,0,0.5) !important;
+    padding: 5px 0 !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3) !important;
+}
+
+.navbar-brand, .nav-link, .nav-item a {
+    color: #ffffff !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* HERO SECTION */
+.blog-hero {
+    width: 100%; 
+    height: 55vh; 
+    min-height: 450px;
+    background: linear-gradient(135deg, #6b7280 0%, #4a5560 100%);
+    position: relative; 
+    display: flex; 
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center; 
+    text-align: center;
+    padding: 20px 20px 0 20px;
+}
+
+.blog-hero::after {
+    content: ''; 
+    position: absolute; 
+    bottom: 0; left: 0; 
+    width: 100%; height: 40%;
+    background: linear-gradient(to top, #f9f9f9 0%, transparent 100%); 
+    pointer-events: none;
+}
+
+.blog-hero h1 {
+    color: #ffffff; 
+    font-family: 'TT Norms', serif; 
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 700; 
+    letter-spacing: 2px; 
+    z-index: 2;
+}
+
+.hero-accent-line { 
+    width: 80px; height: 1px; 
+    background-color: #C5A059; 
+    margin: 15px auto 25px auto; 
+    z-index: 2; 
+}
+
+.blog-hero p {
+    color: #e5e7eb; 
+    font-size: clamp(1rem, 2vw, 1.15rem); 
+    letter-spacing: 3px;
+    text-transform: uppercase; 
+    z-index: 2;
+}
+
+/* MAIN CONTENT */
+.news-container { 
+    max-width: 1280px; 
+    margin: -60px auto 100px auto; 
+    padding: 0 20px; 
+    position: relative; 
+    z-index: 5; 
+}
+
+.news-grid-main { 
+    display: grid; 
+    grid-template-columns: 2fr 1fr; 
+    gap: 40px; 
+}
+
+/* MASTER BLOG CARD */
+.master-wrapper {
+    display: grid; 
+    grid-template-columns: 1fr 1.2fr; 
+    gap: 40px; 
+    background: #ffffff;
+    border: 1px solid #C5A059; 
+    padding: 40px; 
+    transition: all 0.4s ease;
+}
+
+.master-wrapper:hover { 
+    box-shadow: 0 15px 35px rgba(197, 160, 89, 0.15); 
+    transform: translateY(-5px); 
+}
+
+.category-label {
+    color: #C5A059; 
+    font-weight: 700; 
+    font-size: 0.8rem; 
+    text-transform: uppercase;
+    letter-spacing: 2px; 
+    margin-bottom: 20px; 
+    display: inline-flex; 
+    align-items: center; 
+    gap: 10px;
+}
+
+.category-label::before { 
+    content: ''; width: 20px; height: 1px; background-color: #C5A059; 
+}
+
+.master-title { 
+    font-family: 'TT Norms', serif; 
+    font-size: clamp(1.8rem, 3vw, 2.5rem); 
+    line-height: 1.2; 
+    margin-bottom: 20px; 
+}
+
+.master-title a { color: #111827; text-decoration: none; }
+.master-title a:hover { color: #C5A059; }
+
+.master-excerpt { 
+    font-size: 1.05rem; color: #4b5563; line-height: 1.7; margin-bottom: 30px; 
+}
+
+.read-more-link {
+    font-size: 0.9rem; color: #111827; font-weight: 700; text-transform: uppercase;
+    text-decoration: none; border-bottom: 1px solid #C5A059; padding-bottom: 5px;
+}
+
+.master-image-box { aspect-ratio: 4 / 5; overflow: hidden; background: #eaeaea; }
+.master-image-box img { width: 100%; height: 100%; object-fit: cover; transition: 0.8s ease; }
+.master-wrapper:hover .master-image-box img { transform: scale(1.05); }
+
+/* SIDEBAR */
+.sidebar-wrapper { background: #ffffff; border: 1px solid #C5A059; padding: 30px; }
+.sidebar-heading { 
+    font-family: 'TT Norms', serif; font-size: 1.5rem; font-weight: 700; 
+    margin-bottom: 20px; border-bottom: 1px solid rgba(197, 160, 89, 0.4); padding-bottom: 15px; 
+}
+.sidebar-item { 
+    display: flex; align-items: center; gap: 15px; padding: 15px 0; 
+    border-bottom: 1px dashed rgba(197, 160, 89, 0.4); text-decoration: none; color: inherit; 
+}
+.sidebar-title { font-family: 'TT Norms', serif; font-size: 1.05rem; font-weight: 600; margin: 0 0 5px 0; }
+.sidebar-image-box { width: 70px; height: 70px; flex-shrink: 0; overflow: hidden; border: 1px solid rgba(197, 160, 89, 0.3); }
+.sidebar-image-box img { width: 100%; height: 100%; object-fit: cover; }
+
+/* BOTTOM GRID */
+.more-articles-grid { 
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+    gap: 30px; margin-top: 40px; 
+}
+.grid-card { 
+    background: #ffffff; border: 1px solid rgba(197, 160, 89, 0.5); padding: 20px; 
+    text-decoration: none; color: inherit; transition: 0.4s; 
+}
+.grid-card:hover { transform: translateY(-5px); border-color: #C5A059; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+.grid-card-image { width: 100%; aspect-ratio: 16/10; overflow: hidden; margin-bottom: 15px; }
+.grid-card-image img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+.grid-card:hover .grid-card-image img { transform: scale(1.05); }
+
+/* EMPTY STATE */
+.empty-blog-state {
+    text-align: center; padding: 100px 20px; background: white; 
+    border: 1px solid #ddd; border-radius: 8px;
+}
+.empty-blog-state h2 { font-family: 'Playfair Display', serif; color: #111827; }
+.empty-blog-state p { color: #64748b; margin-top: 10px; }
+
+
+/* RESPONSIVE DESIGN (MOBILE FIXES) */
+@media (max-width: 1024px) { 
+    .news-grid-main { grid-template-columns: 1fr; } 
+}
+
+@media (max-width: 768px) { 
+    .news-container { margin-top: -30px; padding: 0 15px; }
+    
+    .master-wrapper { 
+        grid-template-columns: 1fr; 
+        padding: 20px;
+        gap: 20px;
+    } 
+    .master-image-box { 
+        order: -1; 
+        aspect-ratio: 16/9; 
+    } 
+
+    .sidebar-wrapper { padding: 20px; }
+    .more-articles-grid { grid-template-columns: 1fr; gap: 20px; }
+}

@@ -1,16 +1,10 @@
 <?php
 return [
-    'hero_1_title'    => 'TWILLSTUDIO.',
-    'hero_1_subtitle' => 'Presisi & Keanggunan yang Terjalin',
-    'hero_2_title'    => 'INOVASI',
-    'hero_2_subtitle' => 'Mewujudkan Visi Menjadi Kenyataan',
-    'hero_3_title'    => 'DESAIN',
-    'hero_3_subtitle' => 'Membawa Detail pada Kesempurnaan',
-    
-    'about_label'     => 'Filosofi',
-    'about_title'     => 'Presisi yang Terjalin dalam Desain',
-    'about_desc'      => 'Twill Studio adalah firma arsitektur yang percaya bahwa desain yang presisi lahir dari jalinan fungsi, estetika, dan keberlanjutan. Kami mewujudkan visi Anda melalui pendekatan teknis yang detail.',
-    'about_btn'       => 'Baca Kisah Kami',
+    'title_up'        => 'Beranda',
+    'about_label'     => 'Perkenalan',
+    'about_title'     => 'Menyatukan Arsitektur, Menghubungkan Fungsi, Mengikat Nilai',
+    'about_desc'      => 'Twill Studio adalah studio arsitektur muda yang berbasis di Bandung, Indonesia. Twill merupakan benang penghubung antara klien dan ruang, merajut setiap visi ke dalam bentuk dengan presisi dan perhatian.',
+    'about_btn'       => 'Baca Tentang Kami',
     'flipbook_hint'   => '&larr; Ketuk untuk membuka Portofolio &rarr;',
     
     'projects_title'  => 'Proyek Terbaru',

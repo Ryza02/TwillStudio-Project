@@ -4,6 +4,43 @@
 
 <?= $this->section('styles'); ?>
 <link rel="stylesheet" href="<?= base_url('assets/css/admin/blogs.css'); ?>">
+<style>
+    /* Tambahan styling agar layout header form rapi */
+    .section-header-flex {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid var(--border);
+    }
+    .section-header-flex .form-section-title {
+        margin: 0;
+        border: none;
+        padding: 0;
+    }
+    .btn-translate {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background-color: var(--bg-hover);
+        color: var(--onyx);
+        border: 1px solid var(--border);
+        padding: 8px 16px;
+        border-radius: var(--radius-md);
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    .btn-translate:hover:not(:disabled) {
+        background-color: var(--border);
+    }
+    .btn-translate:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+    }
+</style>
 <?= $this->endSection(); ?>
 
 <?= $this->section('content'); ?>
@@ -17,7 +54,6 @@
     <form method="POST" action="<?= base_url('admin/blog/edit/' . esc($blog['id'])); ?>" enctype="multipart/form-data" id="blogForm">
         <?= csrf_field(); ?>
 
-        <!-- Current Image -->
         <div class="form-section">
             <h3 class="form-section-title">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width: 20px; height: 20px; display: inline; vertical-align: middle; margin-right: 8px;">
@@ -58,14 +94,21 @@
             </div>
         </div>
 
-        <!-- Indonesian Version -->
         <div class="form-section">
-            <h3 class="form-section-title">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width: 20px; height: 20px; display: inline; vertical-align: middle; margin-right: 8px;">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 21v-8a2 2 0 012-2h14a2 2 0 012 2v8M3 13l4-4 4 4M3 5l4-4 4 4M13 21v-8a2 2 0 012-2h4a2 2 0 012 2v8M13 13l4-4 4 4M13 5l4-4 4 4" />
-                </svg>
-                Versi Bahasa Indonesia
-            </h3>
+            <div class="section-header-flex">
+                <h3 class="form-section-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width: 20px; height: 20px; display: inline; vertical-align: middle; margin-right: 8px;">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 21v-8a2 2 0 012-2h14a2 2 0 012 2v8M3 13l4-4 4 4M3 5l4-4 4 4M13 21v-8a2 2 0 012-2h4a2 2 0 012 2v8M13 13l4-4 4 4M13 5l4-4 4 4" />
+                    </svg>
+                    Versi Bahasa Indonesia
+                </h3>
+                <button type="button" id="btnTranslate" class="btn-translate">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width: 16px; height: 16px;">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                    Auto Translate
+                </button>
+            </div>
 
             <div class="form-group">
                 <label class="form-label">Judul Artikel <span class="required">*</span></label>
@@ -83,22 +126,13 @@
             </div>
         </div>
 
-        <!-- English Version -->
         <div class="form-section">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <h3 class="form-section-title" style="margin: 0; border: none;">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width: 20px; height: 20px; display: inline; vertical-align: middle; margin-right: 8px;">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
-                    </svg>
-                    English Version
-                </h3>
-                <button type="button" id="btnTranslate" class="translate-btn">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width: 16px; height: 16px;">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                    </svg>
-                    Auto Translate
-                </button>
-            </div>
+            <h3 class="form-section-title">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width: 20px; height: 20px; display: inline; vertical-align: middle; margin-right: 8px;">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
+                </svg>
+                English Version
+            </h3>
 
             <div class="form-group">
                 <label class="form-label">Article Title</label>
@@ -116,7 +150,30 @@
             </div>
         </div>
 
-        <!-- Featured Checkbox -->
+        <div class="form-section">
+            <h3 class="form-section-title">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width: 20px; height: 20px; display: inline; vertical-align: middle; margin-right: 8px;">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9" />
+                </svg>
+                Versione Italiana
+            </h3>
+
+            <div class="form-group">
+                <label class="form-label">Titolo dell'articolo</label>
+                <input type="text" id="title_it" name="title_it" class="form-input" value="<?= old('title_it', $blog['title_it'] ?? ''); ?>" placeholder="Inserisci il titolo dell'articolo">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Descrizione 1 / Titolo Principale</label>
+                <textarea id="description_1_it" name="description_1_it" class="form-textarea" rows="4" placeholder="Paragrafo di apertura"><?= old('description_1_it', $blog['description_1_it'] ?? ''); ?></textarea>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Contenuto Dettagliato</label>
+                <textarea id="description_2_it" name="description_2_it" class="form-textarea" rows="12" placeholder="Contenuto dettagliato dell'articolo"><?= old('description_2_it', $blog['description_2_it'] ?? ''); ?></textarea>
+            </div>
+        </div>
+
         <div class="form-group">
             <div class="checkbox-group">
                 <label>
@@ -126,7 +183,6 @@
             </div>
         </div>
 
-        <!-- Form Actions -->
         <div class="form-actions">
             <a href="<?= base_url('admin/blogs'); ?>" class="btn btn-secondary">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -144,16 +200,12 @@
     </form>
 </div>
 
-<!-- Validation Popup -->
 <div id="validationPopup" class="validation-popup"></div>
 
 <?= $this->endSection(); ?>
 
 <?= $this->section('scripts'); ?>
 <script>
-    // ============================================
-    // VALIDATION POPUP FUNCTION
-    // ============================================
     function showPopup(type, title, message) {
         const popup = document.getElementById('validationPopup');
         const icons = {
@@ -188,9 +240,6 @@
         }, 5000);
     }
 
-    // ============================================
-    // FILE UPLOAD WITH VALIDATION
-    // ============================================
     const imageInput = document.getElementById('image_url');
     const uploadArea = document.getElementById('uploadArea');
     const uploadPlaceholder = document.getElementById('upload-placeholder');
@@ -202,23 +251,19 @@
         const file = event.target.files[0];
         
         if (file) {
-            // Validate file type
             if (!file.type.startsWith('image/')) {
                 showPopup('error', 'File Tidak Valid', 'File harus berupa gambar.');
                 this.value = '';
                 return;
             }
             
-            // Validate file size (10MB)
             const maxSize = 10 * 1024 * 1024;
             if (file.size > maxSize) {
-                showPopup('error', 'File Terlalu Besar', 
-                    'Ukuran file maksimal 10MB. File Anda: ' + (file.size / 1024 / 1024).toFixed(2) + 'MB');
+                showPopup('error', 'File Terlalu Besar', 'Ukuran file maksimal 10MB. File Anda: ' + (file.size / 1024 / 1024).toFixed(2) + 'MB');
                 this.value = '';
                 return;
             }
             
-            // Show preview
             const reader = new FileReader();
             reader.onload = function(e) {
                 imagePreview.src = e.target.result;
@@ -230,12 +275,9 @@
                 uploadArea.style.borderStyle = 'solid';
             };
             reader.readAsDataURL(file);
-            
-            showPopup('success', 'File Valid', 'Gambar siap diunggah.');
         }
     });
 
-    // Drag and Drop
     uploadArea.addEventListener('dragover', (e) => {
         e.preventDefault();
         uploadArea.style.borderColor = 'var(--onyx)';
@@ -250,98 +292,78 @@
         }
     });
 
-    // ============================================
-    // FORM VALIDATION
-    // ============================================
+    // Handle Form Submission Validation
     document.getElementById('blogForm').addEventListener('submit', function(e) {
         const title = document.getElementById('title').value.trim();
         const desc1 = document.getElementById('description_1').value.trim();
 
-        // Validate title
         if (!title || title.length < 5) {
             e.preventDefault();
             showPopup('error', 'Validasi Gagal', 'Judul artikel minimal 5 karakter.');
             document.getElementById('title').focus();
-            return false;
+            return;
         }
 
-        if (title.length > 255) {
-            e.preventDefault();
-            showPopup('error', 'Validasi Gagal', 'Judul artikel maksimal 255 karakter.');
-            document.getElementById('title').focus();
-            return false;
-        }
-
-        // Validate description 1
         if (!desc1 || desc1.length < 10) {
             e.preventDefault();
             showPopup('error', 'Validasi Gagal', 'Deskripsi utama minimal 10 karakter.');
             document.getElementById('description_1').focus();
-            return false;
+            return;
         }
 
-        // Validate image if uploading new one
-        const image = imageInput.files[0];
-        if (image && image.size > 10 * 1024 * 1024) {
-            e.preventDefault();
-            showPopup('error', 'Validasi Gagal', 'Ukuran gambar maksimal 10MB.');
-            return false;
-        }
-
-        showPopup('warning', 'Memproses', 'Artikel sedang diperbarui...');
+        showPopup('warning', 'Memproses', 'Data sedang disimpan...');
     });
 
-    // ============================================
-    // AUTO TRANSLATE
-    // ============================================
+    // Helper Translate API
+    async function fetchTranslation(text, targetLang) {
+        if (!text || !text.trim()) return '';
+        try {
+            const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=id|${targetLang}`);
+            const data = await res.json();
+            return (data.responseData && data.responseData.translatedText) ? data.responseData.translatedText : text;
+        } catch (error) {
+            console.error('Translate Error:', error);
+            return text;
+        }
+    }
+
+    // Auto Translate Button Click
     document.getElementById('btnTranslate').addEventListener('click', async function() {
         const btn = this;
-        const originalContent = btn.innerHTML;
-        
-        const textData = {
-            title: document.getElementById('title').value,
-            description_1: document.getElementById('description_1').value,
-            description_2: document.getElementById('description_2').value
-        };
+        const title = document.getElementById('title').value;
+        const desc1 = document.getElementById('description_1').value;
+        const desc2 = document.getElementById('description_2').value;
 
-        if (!textData.title && !textData.description_1 && !textData.description_2) {
+        if (!title && !desc1 && !desc2) {
             showPopup('warning', 'Peringatan', 'Harap isi minimal satu kolom Bahasa Indonesia sebelum menerjemahkan.');
             return;
         }
 
+        const originalContent = btn.innerHTML;
         btn.disabled = true;
-        btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width: 16px; height: 16px; animation: spin 1s linear infinite;"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg> Processing...';
+        btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width: 16px; height: 16px; animation: spin 1s linear infinite;"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg> Menerjemahkan...';
         
         try {
-            const response = await fetch('<?= base_url('admin/translate') ?>', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Requested-With': 'XMLHttpRequest'
-                },
-                body: JSON.stringify(textData)
-            });
+            // Translate English
+            if (title) document.getElementById('title_en').value = await fetchTranslation(title, 'en');
+            if (desc1) document.getElementById('description_1_en').value = await fetchTranslation(desc1, 'en');
+            if (desc2) document.getElementById('description_2_en').value = await fetchTranslation(desc2, 'en');
 
-            const result = await response.json();
+            // Translate Italian
+            if (title) document.getElementById('title_it').value = await fetchTranslation(title, 'it');
+            if (desc1) document.getElementById('description_1_it').value = await fetchTranslation(desc1, 'it');
+            if (desc2) document.getElementById('description_2_it').value = await fetchTranslation(desc2, 'it');
 
-            if (result.success) {
-                if (result.data.title) document.getElementById('title_en').value = result.data.title;
-                if (result.data.description_1) document.getElementById('description_1_en').value = result.data.description_1;
-                if (result.data.description_2) document.getElementById('description_2_en').value = result.data.description_2;
-                showPopup('success', 'Berhasil', 'Terjemahan selesai!');
-            } else {
-                showPopup('error', 'Gagal', result.message || 'Gagal menerjemahkan.');
-            }
+            showPopup('success', 'Berhasil', 'Semua kolom berhasil diterjemahkan!');
         } catch (error) {
-            showPopup('error', 'Error', 'Terjadi kesalahan jaringan saat menerjemahkan.');
-            console.error('Error:', error);
+            showPopup('error', 'Error', 'Terjadi kesalahan saat menghubungi API terjemahan.');
         } finally {
             btn.disabled = false;
             btn.innerHTML = originalContent;
         }
     });
 
-    // Add spin animation
+    // Animasi Loading Spinner
     const style = document.createElement('style');
     style.textContent = `
         @keyframes spin {
@@ -350,9 +372,6 @@
     `;
     document.head.appendChild(style);
 
-    // ============================================
-    // SHOW FLASHDATA
-    // ============================================
     <?php if (session()->getFlashdata('error')): ?>
         showPopup('error', 'Error', '<?= esc(session()->getFlashdata('error')); ?>');
     <?php endif; ?>

@@ -10,15 +10,10 @@ class Blog extends BaseController
 
     public function __construct()
     {
-        // Load helper secara otomatis
         helper(['url', 'form']);
         $this->blogModel = new BlogModel();
     }
 
-    /**
-     * ADMIN: Listing semua blog
-     * Route: admin/blogs
-     */
     public function index()
     {
         return view('admin/blogs', [
@@ -26,20 +21,19 @@ class Blog extends BaseController
         ]);
     }
 
-    /**
-     * ADMIN: Create blog baru
-     * Route: admin/blog/create (GET & POST)
-     */
     public function create()
     {
         if ($this->request->is('post')) {
             $rules = [
                 'title'            => 'required|min_length[5]|max_length[255]',
                 'title_en'         => 'permit_empty|max_length[255]',
+                'title_it'         => 'permit_empty|max_length[255]',
                 'description_1'    => 'required|min_length[10]',
                 'description_1_en' => 'permit_empty',
+                'description_1_it' => 'permit_empty',
                 'description_2'    => 'permit_empty',
                 'description_2_en' => 'permit_empty',
+                'description_2_it' => 'permit_empty',
                 'image_url'        => 'uploaded[image_url]|is_image[image_url]|mime_in[image_url,image/jpg,image/jpeg,image/png,image/webp]|max_size[image_url,10240]'
             ];
 
@@ -50,7 +44,6 @@ class Blog extends BaseController
                     ->with('error', 'Validasi gagal! Periksa kembali isian form Anda.');
             }
 
-            // Handle Upload Gambar
             $file = $this->request->getFile('image_url');
             $newName = $file->getRandomName();
             $file->move(FCPATH . 'uploads/blogs', $newName);
@@ -58,7 +51,6 @@ class Blog extends BaseController
             $title = trim((string)$this->request->getPost('title'));
             $is_featured = $this->request->getPost('is_featured') ? 1 : 0;
 
-            // Jika dijadikan Featured (Headline), matikan featured yang lain
             if ($is_featured == 1) {
                 $this->blogModel->set('is_featured', 0)->where('is_featured', 1)->update();
             }
@@ -66,11 +58,14 @@ class Blog extends BaseController
             $data = [
                 'title'            => $title,
                 'title_en'         => trim((string)$this->request->getPost('title_en')),
+                'title_it'         => trim((string)$this->request->getPost('title_it')),
                 'slug'             => url_title($title, '-', true),
                 'description_1'    => trim((string)$this->request->getPost('description_1')),
                 'description_1_en' => trim((string)$this->request->getPost('description_1_en')),
+                'description_1_it' => trim((string)$this->request->getPost('description_1_it')),
                 'description_2'    => trim((string)$this->request->getPost('description_2')),
                 'description_2_en' => trim((string)$this->request->getPost('description_2_en')),
+                'description_2_it' => trim((string)$this->request->getPost('description_2_it')),
                 'image_url'        => 'uploads/blogs/' . $newName,
                 'is_featured'      => $is_featured,
             ];
@@ -85,10 +80,6 @@ class Blog extends BaseController
         return view('admin/create-blog');
     }
 
-    /**
-     * ADMIN: Edit blog
-     * Route: admin/blog/edit/{id} (GET & POST)
-     */
     public function edit($id)
     {
         $blog = $this->blogModel->find($id);
@@ -101,10 +92,13 @@ class Blog extends BaseController
             $rules = [
                 'title'            => 'required|min_length[5]|max_length[255]',
                 'title_en'         => 'permit_empty|max_length[255]',
+                'title_it'         => 'permit_empty|max_length[255]',
                 'description_1'    => 'required|min_length[10]',
                 'description_1_en' => 'permit_empty',
+                'description_1_it' => 'permit_empty',
                 'description_2'    => 'permit_empty',
                 'description_2_en' => 'permit_empty',
+                'description_2_it' => 'permit_empty',
             ];
 
             $file = $this->request->getFile('image_url');
@@ -128,7 +122,6 @@ class Blog extends BaseController
                 $file->move(FCPATH . 'uploads/blogs', $newName);
                 $imageUrl = 'uploads/blogs/' . $newName;
 
-                // Hapus foto lama
                 if (is_file(FCPATH . $blog['image_url'])) {
                     @unlink(FCPATH . $blog['image_url']);
                 }
@@ -137,7 +130,6 @@ class Blog extends BaseController
             $title = trim((string)$this->request->getPost('title'));
             $is_featured = $this->request->getPost('is_featured') ? 1 : 0;
 
-            // Jika dijadikan Featured, matikan featured lain (kecuali current id)
             if ($is_featured == 1) {
                 $this->blogModel->set('is_featured', 0)->where('is_featured', 1)->where('id !=', $id)->update();
             }
@@ -145,11 +137,14 @@ class Blog extends BaseController
             $data = [
                 'title'            => $title,
                 'title_en'         => trim((string)$this->request->getPost('title_en')),
+                'title_it'         => trim((string)$this->request->getPost('title_it')),
                 'slug'             => url_title($title, '-', true),
                 'description_1'    => trim((string)$this->request->getPost('description_1')),
                 'description_1_en' => trim((string)$this->request->getPost('description_1_en')),
+                'description_1_it' => trim((string)$this->request->getPost('description_1_it')),
                 'description_2'    => trim((string)$this->request->getPost('description_2')),
                 'description_2_en' => trim((string)$this->request->getPost('description_2_en')),
+                'description_2_it' => trim((string)$this->request->getPost('description_2_it')),
                 'image_url'        => $imageUrl,
                 'is_featured'      => $is_featured,
             ];
@@ -164,16 +159,11 @@ class Blog extends BaseController
         return view('admin/edit-blog', ['blog' => $blog]);
     }
 
-    /**
-     * ADMIN: Delete blog
-     * Route: admin/blog/delete/{id}
-     */
     public function delete($id)
     {
         $blog = $this->blogModel->find($id);
         
         if ($blog) {
-            // Hapus file gambar jika ada
             if (!empty($blog['image_url']) && is_file(FCPATH . $blog['image_url'])) {
                 @unlink(FCPATH . $blog['image_url']);
             }
@@ -186,13 +176,8 @@ class Blog extends BaseController
         return redirect()->back()->with('error', 'Artikel tidak ditemukan.');
     }
 
-    /**
-     * ADMIN: Toggle Featured (AJAX)
-     * Route: admin/blog/toggle-featured/{id} (POST)
-     */
     public function toggleFeatured($id)
     {
-        // Pastikan request adalah AJAX
         if (! $this->request->isAJAX()) {
             return $this->response->setStatusCode(400)->setJSON([
                 'status' => 'error',
@@ -209,10 +194,7 @@ class Blog extends BaseController
             ]);
         }
 
-        // Matikan semua featured terlebih dahulu (hanya yang sedang featured)
         $this->blogModel->set('is_featured', 0)->where('is_featured', 1)->update();
-
-        // Aktifkan yang dipilih
         $this->blogModel->update($id, ['is_featured' => 1]);
 
         return $this->response->setJSON([

@@ -1,285 +1,56 @@
 <?= $this->extend('layout/base'); ?>
 
-<?= $this->section('title'); ?><?= lang('About.hero_title') ?> - Twill Studio<?= $this->endSection(); ?>
+<?php 
+$lang = session()->get('lang') ?? 'en'; 
+$heroTitle = !empty($hero['title_'.$lang]) ? $hero['title_'.$lang] : $hero['title_id'];
+$heroDesc = !empty($hero['desc_'.$lang]) ? $hero['desc_'.$lang] : $hero['desc_id'];
+?>
+
+<?= $this->section('title'); ?> <?= esc($heroTitle); ?> <?= $this->endSection(); ?>
 
 <?= $this->section('content'); ?>
 
+<link rel="stylesheet" href="<?= base_url('assets/css/frontend/about.css'); ?>">
 <script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
-
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=TT+Norms+Pro:wght@300;400;500;600;700&display=swap');
-
-    :root {
-        --primary: #111827;
-        --secondary: #4b5563;
-        --accent: #C5A059; /* Emas/Accent */
-        --lighter: #ffffff;
-        --off-white: #f9fafb;
-        --border: #e5e7eb;
-    }
-
-    body { 
-        font-family: 'TT Norms Pro', sans-serif;
-        background-color: var(--off-white);
-        margin: 0;
-        -webkit-font-smoothing: antialiased;
-    }
-
-    body.loading {
-        overflow: hidden;
-    }
-
-    /* =========================================
-       HERO SECTION (Diperbaiki efek pudar ke bawah)
-       ========================================= */
-    .page-hero {
-        margin-top: -100px;  
-        width: 100%;
-        height: 55vh; 
-        min-height: 450px;
-        background: linear-gradient(135deg, #2c3e50 0%, #4a5560 100%);
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        padding: 80px 20px 0 20px;
-    }
-
-    .page-hero::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 30%;
-        background: linear-gradient(to top, var(--off-white) 0%, transparent 100%);
-        pointer-events: none;
-    }
-
-    .page-hero h1 {
-        font-family: 'Playfair Display', serif;
-        font-size: clamp(2.5rem, 5vw, 4rem);
-        font-weight: 700;
-        letter-spacing: 2px;
-        margin: 0 0 10px 0;
-        z-index: 2;
-        color:#e5e7eb;
-    }
-
-    .hero-accent-line {
-        width: 60px;
-        height: 2px;
-        background-color: var(--accent);
-        margin: 15px auto 25px auto;
-        z-index: 2;
-    }
-
-    .page-hero p {
-        color: #e5e7eb;
-        font-size: 1.1rem;
-        letter-spacing: 2px;
-        text-transform: uppercase;
-        max-width: 600px;
-        margin: 0 auto;
-        z-index: 2;
-    }
-
-    #smooth-wrapper {
-        width: 100%;
-        overflow: hidden;
-    }
-
-    .page {
-        padding: 5vw;
-        max-width: 1100px;
-        margin: 0 auto;
-    }
-
-    .content {
-        margin: 10vh 0 20vh;
-    }
-
-    /* Flexbox Layout - Stabil */
-    .content__item {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 25vh;
-        width: 100%;
-    }
-
-    .content__item:nth-child(even) {
-        flex-direction: row-reverse;
-    }
-
-    .content__item-img-container {
-        position: relative;
-        width: 45%; 
-        flex-shrink: 0;
-    }
-
-    .content__item-imgwrap {
-        position: relative;
-        width: 100%;
-        padding-bottom: 120%; 
-        overflow: hidden;
-        box-shadow: 0 15px 35px rgba(0,0,0,0.15);
-        will-change: transform;
-    }
-
-    .content__item-img {
-        --overflow: 40px;
-        height: calc(100% + (2 * var(--overflow)));
-        top: calc(-1 * var(--overflow));
-        width: 100%;
-        position: absolute;
-        background-size: cover;
-        background-position: center;
-        will-change: transform;
-        filter: grayscale(20%);
-        transition: filter 0.5s ease;
-    }
-
-    .content__item-imgwrap:hover .content__item-img {
-        filter: grayscale(0%);
-    }
-
-    .content__item-title {
-        position: absolute;
-        bottom: -3%; 
-        left: -18%;  
-        font-family: 'Playfair Display', serif;
-        font-style: italic;
-        font-weight: 500;
-        font-size: clamp(2rem, 3.5vw, 3.2rem);
-        color: var(--accent);
-        margin: 0;
-        z-index: 10;
-        line-height: 1;
-        text-shadow: 2px 2px 10px rgba(255, 255, 255, 0.9);
-        pointer-events: none;
-    }
-
-    .content__item:nth-child(even) .content__item-title {
-        left: auto;
-        right: -18%;
-    }
-
-    .content__item-description {
-        width: 45%; 
-        margin: 0;
-        color: var(--secondary);
-        line-height: 1.8;
-        font-size: 1.1rem;
-        padding-top: 1rem;
-    }
-
-    @media screen and (max-width: 768px) {
-        .content__item, 
-        .content__item:nth-child(even) {
-            flex-direction: column; 
-            gap: 2rem;
-        }
-        
-        .content__item-img-container {
-            width: 80%; 
-            margin: 0 auto;
-        }
-
-        .content__item-title {
-            left: -5% !important; 
-            right: auto !important;
-            bottom: -5%;
-            font-size: 2.5rem;
-        }
-
-        .content__item-description {
-            width: 90%;
-            text-align: center;
-        }
-    }
-</style>
 
 <div data-scroll>
     <section class="page-hero">
-        <h1><?= lang('About.hero_title') ?></h1>
+        <h1><?= esc($heroTitle); ?></h1>
         <div class="hero-accent-line"></div>
-        <p><?= lang('About.hero_desc') ?></p>
+        <p><?= esc($heroDesc); ?></p>
         
         <svg style="width: 40px; height: 60px; margin-top: 40px;" viewBox="0 0 60 80">
             <path d="M0 0 L30 22 L60 0" fill="none" stroke="var(--accent)" stroke-width="2" style="animation: down 2s infinite -1s; opacity:0;"></path>
             <path d="M0 20 L30 42 L60 20" fill="none" stroke="var(--accent)" stroke-width="2" style="animation: down 2s infinite -0.5s; opacity:0;"></path>
             <path d="M0 40 L30 62 L60 40" fill="none" stroke="var(--accent)" stroke-width="2" style="animation: down 2s infinite 0s; opacity:0;"></path>
         </svg>
-        <style>@keyframes down { 0%{opacity:0} 25%{opacity:1} 75%{opacity:0} 100%{opacity:0} }</style>
     </section>
 
     <main id="smooth-wrapper">
         <div class="page page--layout-2">
             <div class="content content--alternate">
 
-                <div class="content__item">
-                    <div class="content__item-img-container">
-                        <div class="content__item-imgwrap">
-                            <div class="content__item-img" style="background-image: url('<?= base_url('assets/images/about.jpg'); ?>');"></div>
+                <?php if(!empty($items)): ?>
+                    <?php foreach($items as $item): 
+                        $itemTitle = !empty($item['title_'.$lang]) ? $item['title_'.$lang] : $item['title_id'];
+                        $itemDesc  = !empty($item['desc_'.$lang]) ? $item['desc_'.$lang] : $item['desc_id'];
+                        $imgUrl = filter_var($item['image_url'], FILTER_VALIDATE_URL) ? $item['image_url'] : base_url($item['image_url']);
+                    ?>
+                        <div class="content__item">
+                            <div class="content__item-img-container">
+                                <div class="content__item-imgwrap">
+                                    <div class="content__item-img" style="background-image: url('<?= esc($imgUrl); ?>');"></div>
+                                </div>
+                                <h2 class="content__item-title"><?= esc($itemTitle); ?></h2>
+                            </div>
+                            <p class="content__item-description">
+                                <?= esc($itemDesc); ?>
+                            </p>
                         </div>
-                        <h2 class="content__item-title"><?= lang('About.item1_title') ?></h2>
-                    </div>
-                    <p class="content__item-description">
-                        <?= lang('About.item1_desc') ?>
-                    </p>
-                </div>
-
-                <div class="content__item">
-                    <div class="content__item-img-container">
-                        <div class="content__item-imgwrap">
-                            <div class="content__item-img" style="background-image: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80');"></div>
-                        </div>
-                        <h2 class="content__item-title"><?= lang('About.item2_title') ?></h2>
-                    </div>
-                    <p class="content__item-description">
-                        <?= lang('About.item2_desc') ?>
-                    </p>
-                </div>
-
-                <div class="content__item">
-                    <div class="content__item-img-container">
-                        <div class="content__item-imgwrap">
-                            <div class="content__item-img" style="background-image: url('https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=800&q=80');"></div>
-                        </div>
-                        <h2 class="content__item-title"><?= lang('About.item3_title') ?></h2>
-                    </div>
-                    <p class="content__item-description">
-                        <?= lang('About.item3_desc') ?>
-                    </p>
-                </div>
-
-                <div class="content__item">
-                    <div class="content__item-img-container">
-                        <div class="content__item-imgwrap">
-                            <div class="content__item-img" style="background-image: url('<?= base_url('assets/images/founder.jpg'); ?>');"></div>
-                        </div>
-                        <h2 class="content__item-title"><?= lang('About.item4_title') ?></h2>
-                    </div>
-                    <p class="content__item-description">
-                        <?= lang('About.item4_desc') ?>
-                    </p>
-                </div>
-
-                <div class="content__item">
-                    <div class="content__item-img-container">
-                        <div class="content__item-imgwrap">
-                            <div class="content__item-img" style="background-image: url('<?= base_url('assets/images/cofounder.jpg'); ?>');"></div>
-                        </div>
-                        <h2 class="content__item-title"><?= lang('About.item5_title') ?></h2>
-                    </div>
-                    <p class="content__item-description">
-                        <?= lang('About.item5_desc') ?>
-                    </p>
-                </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <p style="text-align: center;">Belum ada konten About.</p>
+                <?php endif; ?>
 
             </div>
         </div>
@@ -393,5 +164,4 @@
         });
     });
 </script>
-
 <?= $this->endSection(); ?>

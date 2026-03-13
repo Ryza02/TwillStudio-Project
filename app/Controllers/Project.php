@@ -60,12 +60,16 @@ class Project extends BaseController
             $data = [
                 'title_id'         => trim((string)$this->request->getPost('title_id')),
                 'title_en'         => trim((string)$this->request->getPost('title_en')),
+                'title_it'         => trim((string)$this->request->getPost('title_it')),
                 'subtitle_id'      => trim((string)$this->request->getPost('subtitle_id')),
                 'subtitle_en'      => trim((string)$this->request->getPost('subtitle_en')),
+                'subtitle_it'      => trim((string)$this->request->getPost('subtitle_it')),
                 'description_1_id' => trim((string)$this->request->getPost('description_1_id')),
                 'description_1_en' => trim((string)$this->request->getPost('description_1_en')),
+                'description_1_it' => trim((string)$this->request->getPost('description_1_it')),
                 'description_2_id' => trim((string)$this->request->getPost('description_2_id')),
                 'description_2_en' => trim((string)$this->request->getPost('description_2_en')),
+                'description_2_it' => trim((string)$this->request->getPost('description_2_it')),
                 'location'         => trim((string)$this->request->getPost('location')),
                 'year'             => trim((string)$this->request->getPost('year')),
                 'category'         => trim((string)$this->request->getPost('category')),
@@ -139,12 +143,16 @@ class Project extends BaseController
             $data = [
                 'title_id'         => trim((string)$this->request->getPost('title_id')),
                 'title_en'         => trim((string)$this->request->getPost('title_en')),
+                'title_it'         => trim((string)$this->request->getPost('title_it')),
                 'subtitle_id'      => trim((string)$this->request->getPost('subtitle_id')),
                 'subtitle_en'      => trim((string)$this->request->getPost('subtitle_en')),
+                'subtitle_it'      => trim((string)$this->request->getPost('subtitle_it')),
                 'description_1_id' => trim((string)$this->request->getPost('description_1_id')),
                 'description_1_en' => trim((string)$this->request->getPost('description_1_en')),
+                'description_1_it' => trim((string)$this->request->getPost('description_1_it')),
                 'description_2_id' => trim((string)$this->request->getPost('description_2_id')),
                 'description_2_en' => trim((string)$this->request->getPost('description_2_en')),
+                'description_2_it' => trim((string)$this->request->getPost('description_2_it')),
                 'location'         => trim((string)$this->request->getPost('location')),
                 'year'             => trim((string)$this->request->getPost('year')),
                 'category'         => trim((string)$this->request->getPost('category')),
@@ -166,36 +174,36 @@ class Project extends BaseController
     }
 
     public function delete($id)
-{
-    $project = $this->projectModel->find($id);
-    
-    if ($project) {
-        if (!empty($project['image_url']) && is_file(FCPATH . $project['image_url'])) {
-            @unlink(FCPATH . $project['image_url']);
+    {
+        $project = $this->projectModel->find($id);
+        
+        if ($project) {
+            if (!empty($project['image_url']) && is_file(FCPATH . $project['image_url'])) {
+                @unlink(FCPATH . $project['image_url']);
+            }
+            
+            $this->projectModel->delete($id);
+            
+            if ($this->request->isAJAX()) {
+                return $this->response->setJSON([
+                    'status' => 'success',
+                    'message' => 'Project berhasil dihapus.'
+                ]);
+            }
+            
+            return redirect()->to(base_url('admin/projects'))
+                ->with('success', 'Project berhasil dihapus.');
         }
         
-        $this->projectModel->delete($id);
-        
         if ($this->request->isAJAX()) {
-            return $this->response->setJSON([
-                'status' => 'success',
-                'message' => 'Project berhasil dihapus.'
+            return $this->response->setStatusCode(404)->setJSON([
+                'status' => 'error',
+                'message' => 'Project tidak ditemukan.'
             ]);
         }
         
-        return redirect()->to(base_url('admin/projects'))
-            ->with('success', 'Project berhasil dihapus.');
+        return redirect()->back()->with('error', 'Project tidak ditemukan.');
     }
-    
-    if ($this->request->isAJAX()) {
-        return $this->response->setStatusCode(404)->setJSON([
-            'status' => 'error',
-            'message' => 'Project tidak ditemukan.'
-        ]);
-    }
-    
-    return redirect()->back()->with('error', 'Project tidak ditemukan.');
-}
 
     public function toggleFeatured($id)
     {
@@ -216,7 +224,6 @@ class Project extends BaseController
         return $this->response->setJSON(['status' => 'error', 'message' => 'Project tidak ditemukan.']);
     }
 
-
     public function galleryIndex()
     {
         return view('admin/gallery-index', [
@@ -234,7 +241,7 @@ class Project extends BaseController
 
         return view('admin/project-gallery', [
             'project'   => $project,
-            'galleries' => $this->projectGalleryModel->where('project_id', $id)->findAll()
+            'galleries' => $this->projectGalleryModel->where('project_id', $id)->orderBy('sort_order', 'ASC')->findAll()
         ]);
     }
 
@@ -246,7 +253,6 @@ class Project extends BaseController
         }
 
         if ($this->request->is('post')) {
-            // Validasi Input Array File
             $rules = [
                 'images' => 'uploaded[images]|is_image[images]|mime_in[images,image/jpg,image/jpeg,image/png,image/webp]|max_size[images,10240]'
             ];
@@ -259,14 +265,20 @@ class Project extends BaseController
             $uploadedCount = 0;
 
             if ($files) {
+                $lastItem = $this->projectGalleryModel->where('project_id', $id)->orderBy('sort_order', 'DESC')->first();
+                $lastOrder = $lastItem ? (int)$lastItem['sort_order'] : 0;
+
                 foreach ($files as $file) {
                     if ($file->isValid() && ! $file->hasMoved()) {
                         $newName = $file->getRandomName();
                         $file->move(FCPATH . 'uploads/project_galleries', $newName);
+                        
+                        $lastOrder++;
 
                         $this->projectGalleryModel->insert([
                             'project_id' => $id,
-                            'image_url'  => 'uploads/project_galleries/' . $newName
+                            'image_url'  => 'uploads/project_galleries/' . $newName,
+                            'sort_order' => $lastOrder
                         ]);
                         
                         $uploadedCount++;
@@ -282,6 +294,18 @@ class Project extends BaseController
         }
     }
 
+    public function reorderGallery()
+    {
+        $json = $this->request->getJSON();
+        if (isset($json->order) && is_array($json->order)) {
+            foreach ($json->order as $index => $id) {
+                $this->projectGalleryModel->update($id, ['sort_order' => $index]);
+            }
+            return $this->response->setJSON(['status' => true]);
+        }
+        return $this->response->setJSON(['status' => false], 400);
+    }
+
     public function deleteGallery($id)
     {
         $gallery = $this->projectGalleryModel->find($id);
@@ -293,7 +317,16 @@ class Project extends BaseController
             }
 
             $this->projectGalleryModel->delete($id);
+            
+            if ($this->request->isAJAX()) {
+                return $this->response->setJSON(['status' => 'success']);
+            }
+
             return redirect()->back()->with('success', 'Foto berhasil dihapus dari galeri.');
+        }
+
+        if ($this->request->isAJAX()) {
+            return $this->response->setStatusCode(404)->setJSON(['status' => 'error']);
         }
 
         return redirect()->back()->with('error', 'Foto tidak ditemukan atau sudah dihapus.');

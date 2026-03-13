@@ -1,6 +1,6 @@
 <?= $this->extend('admin/layout/base'); ?>
 
-<?= $this->section('title'); ?>Manajemen Project<?= $this->endSection(); ?>
+<?= $this->section('title'); ?><?= lang('Sidemin.project_management'); ?><?= $this->endSection(); ?>
 
 <?= $this->section('styles'); ?>
 <link rel="stylesheet" href="<?= base_url('assets/css/admin/projects.css'); ?>">
@@ -8,16 +8,22 @@
 
 <?= $this->section('content'); ?>
 
+<?php
+// Deteksi bahasa saat ini dari session/request
+$lang = session()->get('lang') ?? session()->get('locale') ?? service('request')->getLocale();
+$lang = strtolower(substr($lang, 0, 2));
+?>
+
 <div class="page-header">
     <div>
-        <h2 class="page-title">Manajemen Project</h2>
-        <p class="page-subtitle">Kelola daftar portofolio arsitektur Anda. Centang untuk menampilkan di Beranda (Max 4).</p>
+        <h2 class="page-title"><?= lang('Sidemin.project_management'); ?></h2>
+        <p class="page-subtitle"><?= lang('Sidemin.project_subtitle'); ?></p>
     </div>
     <a href="<?= base_url('admin/project/create'); ?>" class="btn btn-primary">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
         </svg>
-        Tambah Project
+        <?= lang('Sidemin.add_project'); ?>
     </a>
 </div>
 
@@ -25,15 +31,38 @@
     <table class="table">
         <thead>
             <tr>
-                <th style="width: 120px;">MASTER</th>
-                <th>TITLE</th>
-                <th style="width: 200px;">CATEGORY / YEAR</th>
-                <th style="width: 120px; text-align: right;">ACTIONS</th>
+                <th style="width: 120px;"><?= lang('Sidemin.table_master'); ?></th>
+                <th><?= lang('Sidemin.table_title'); ?></th>
+                <th style="width: 200px;"><?= lang('Sidemin.table_category_year'); ?></th>
+                <th style="width: 120px; text-align: right;"><?= lang('Sidemin.table_actions'); ?></th>
             </tr>
         </thead>
         <tbody>
             <?php if (!empty($projects)): ?>
                 <?php foreach ($projects as $project): ?>
+                    <?php
+                    // Logika Fallback Judul Multi-bahasa
+                    $displayTitle = 'Tanpa Judul';
+
+                    if ($lang === 'en' && !empty($project['title_en'])) {
+                        $displayTitle = $project['title_en'];
+                    } elseif ($lang === 'it' && !empty($project['title_it'])) {
+                        $displayTitle = $project['title_it'];
+                    } elseif ($lang === 'id' && !empty($project['title_id'])) {
+                        $displayTitle = $project['title_id'];
+                    } else {
+                        // Jika bahasa yg dipilih kosong, cari bahasa lain yang tersedia (fallback)
+                        if (!empty($project['title_id'])) {
+                            $displayTitle = $project['title_id'];
+                        } elseif (!empty($project['title_en'])) {
+                            $displayTitle = $project['title_en'];
+                        } elseif (!empty($project['title_it'])) {
+                            $displayTitle = $project['title_it'];
+                        } elseif (!empty($project['title'])) {
+                            $displayTitle = $project['title'];
+                        }
+                    }
+                    ?>
                     <tr>
                         <td>
                             <div style="display: flex; align-items: center; gap: 12px;">
@@ -41,20 +70,20 @@
                                        class="table-checkbox toggle-master-project" 
                                        data-id="<?= $project['id']; ?>" 
                                        <?= (isset($project['is_featured']) && $project['is_featured'] == 1) ? 'checked' : ''; ?> 
-                                       title="Jadikan Master">
+                                       title="<?= lang('Sidemin.make_master'); ?>">
                                 <?php if (!empty($project['image_url']) && is_file(FCPATH . $project['image_url'])): ?>
                                     <div class="table-image">
-                                        <img src="<?= base_url(esc($project['image_url'])); ?>" alt="<?= esc($project['title_id']); ?>">
+                                        <img src="<?= base_url(esc($project['image_url'])); ?>" alt="<?= esc($displayTitle); ?>">
                                     </div>
                                 <?php else: ?>
                                     <div class="table-image-placeholder">
-                                        <?= strtoupper(substr($project['title_id'], 0, 1)); ?>
+                                        <?= strtoupper(substr($displayTitle, 0, 1)); ?>
                                     </div>
                                 <?php endif; ?>
                             </div>
                         </td>
                         <td>
-                            <h4 class="table-title"><?= esc($project['title_id']); ?></h4>
+                            <h4 class="table-title"><?= esc($displayTitle); ?></h4>
                             <p class="table-location"><?= esc($project['location']); ?></p>
                         </td>
                         <td>
@@ -72,7 +101,7 @@
                                 <button type="button" 
                                         class="table-action-btn delete btn-delete-project" 
                                         data-id="<?= $project['id']; ?>" 
-                                        data-title="<?= esc($project['title_id']); ?>"
+                                        data-title="<?= esc($displayTitle); ?>"
                                         title="Delete">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -91,13 +120,13 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                                 </svg>
                             </div>
-                            <h4 class="empty-state-title">Belum Ada Project</h4>
-                            <p class="empty-state-desc">Mulai tambahkan project portfolio pertama Anda</p>
+                            <h4 class="empty-state-title"><?= lang('Sidemin.no_project_yet'); ?></h4>
+                            <p class="empty-state-desc"><?= lang('Sidemin.start_adding_project'); ?></p>
                             <a href="<?= base_url('admin/project/create'); ?>" class="btn btn-primary">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
                                 </svg>
-                                Tambah Project
+                                <?= lang('Sidemin.add_project'); ?>
                             </a>
                         </div>
                     </td>
@@ -115,22 +144,22 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                 </svg>
             </div>
-            <h3 style="margin: 0 0 8px 0; color: #111827; font-size: 20px; font-weight: 700;">Hapus Project?</h3>
-            <p style="margin: 0; color: #64748b; font-size: 14px;">Tindakan ini tidak dapat dibatalkan.</p>
+            <h3 style="margin: 0 0 8px 0; color: #111827; font-size: 20px; font-weight: 700;"><?= lang('Sidemin.delete_project_confirm'); ?></h3>
+            <p style="margin: 0; color: #64748b; font-size: 14px;"><?= lang('Sidemin.action_cannot_be_undone'); ?></p>
         </div>
         
         <div style="background: #f8fafc; padding: 16px; border-radius: 12px; margin-bottom: 24px; border: 1px solid #e2e8f0;">
-            <p style="margin: 0 0 8px 0; font-size: 13px; color: #64748b; text-transform: uppercase; font-weight: 600;">Project yang akan dihapus:</p>
+            <p style="margin: 0 0 8px 0; font-size: 13px; color: #64748b; text-transform: uppercase; font-weight: 600;"><?= lang('Sidemin.project_to_delete'); ?></p>
             <p id="deleteProjectTitle" style="margin: 0; font-size: 16px; color: #111827; font-weight: 600;"></p>
         </div>
         
         <div style="display: flex; gap: 12px;">
             <button id="cancelDelete" style="flex: 1; padding: 12px 20px; border: 1px solid #e2e8f0; background: #ffffff; color: #475569; border-radius: 10px; font-weight: 600; cursor: pointer; transition: all 0.3s;">
-                Batal
+                <?= lang('Sidemin.cancel'); ?>
             </button>
             <button id="confirmDelete" style="flex: 1; padding: 12px 20px; border: none; background: #dc2626; color: #ffffff; border-radius: 10px; font-weight: 600; cursor: pointer; transition: all 0.3s;">
-                <span id="deleteBtnText">Ya, Hapus</span>
-                <span id="deleteBtnLoading" style="display: none;">Menghapus...</span>
+                <span id="deleteBtnText"><?= lang('Sidemin.yes_delete'); ?></span>
+                <span id="deleteBtnLoading" style="display: none;"><?= lang('Sidemin.deleting'); ?></span>
             </button>
         </div>
     </div>
@@ -237,7 +266,7 @@
                 }
                 
                 closeDeleteModal();
-                showPopup('success', 'Berhasil', 'Project berhasil dihapus.');
+                showPopup('success', '<?= lang('Sidemin.success') ?>', '<?= lang('Sidemin.project_deleted') ?>');
                 
                 const remainingRows = document.querySelectorAll('.table tbody tr:not(:last-child)');
                 if (remainingRows.length === 0) {
@@ -249,7 +278,7 @@
         })
         .catch(error => {
             closeDeleteModal();
-            showPopup('error', 'Gagal', 'Gagal menghapus project. Silakan coba lagi.');
+            showPopup('error', '<?= lang('Sidemin.failed') ?>', '<?= lang('Sidemin.failed_delete_project') ?>');
             console.error('Delete error:', error);
         });
     });
@@ -277,9 +306,9 @@
                 this.disabled = false;
                 
                 if (data.status === 'success') {
-                    showPopup('success', 'Berhasil', 'Status master project berhasil diubah.');
+                    showPopup('success', '<?= lang('Sidemin.success') ?>', '<?= lang('Sidemin.master_status_changed') ?>');
                 } else {
-                    showPopup('error', 'Gagal', data.message || 'Terjadi kesalahan.');
+                    showPopup('error', '<?= lang('Sidemin.failed') ?>', data.message || '<?= lang('Sidemin.error_occurred') ?>');
                     this.checked = !isChecked;
                 }
             })
@@ -287,18 +316,18 @@
                 this.style.opacity = '1';
                 this.disabled = false;
                 this.checked = !isChecked;
-                showPopup('error', 'Error', 'Terjadi kesalahan koneksi.');
+                showPopup('error', '<?= lang('Sidemin.error') ?>', '<?= lang('Sidemin.connection_error') ?>');
                 console.error('Error:', error);
             });
         });
     });
 
     <?php if (session()->getFlashdata('success')): ?>
-        showPopup('success', 'Berhasil', '<?= esc(session()->getFlashdata('success')); ?>');
+        showPopup('success', '<?= lang('Sidemin.success') ?>', '<?= esc(session()->getFlashdata('success')); ?>');
     <?php endif; ?>
 
     <?php if (session()->getFlashdata('error')): ?>
-        showPopup('error', 'Error', '<?= esc(session()->getFlashdata('error')); ?>');
+        showPopup('error', '<?= lang('Sidemin.error') ?>', '<?= esc(session()->getFlashdata('error')); ?>');
     <?php endif; ?>
 </script>
 <?= $this->endSection(); ?>

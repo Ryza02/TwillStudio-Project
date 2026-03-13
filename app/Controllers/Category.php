@@ -24,14 +24,17 @@ class Category extends BaseController
     {
         if ($this->request->is('post')) {
             $name = trim((string)$this->request->getPost('name'));
+            $name_en = trim((string)$this->request->getPost('name_en'));
+            $name_it = trim((string)$this->request->getPost('name_it'));
             
-            // Membuat slug otomatis (contoh: "Private House" jadi "private-house")
             $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $name)));
 
             if (!empty($name)) {
                 $this->categoryModel->insert([
-                    'name' => $name,
-                    'slug' => $slug
+                    'name'    => $name,
+                    'name_en' => $name_en,
+                    'name_it' => $name_it,
+                    'slug'    => $slug
                 ]);
                 return redirect()->to(site_url('admin/categories'))->with('success', 'Kategori berhasil ditambahkan!');
             }
@@ -39,26 +42,29 @@ class Category extends BaseController
         return redirect()->back()->with('error', 'Nama kategori tidak boleh kosong.');
     }
 
-    // Fungsi untuk memperbarui kategori
     public function update()
     {
         if ($this->request->is('post')) {
             $id = $this->request->getPost('id');
             $name = trim((string)$this->request->getPost('name'));
+            $name_en = trim((string)$this->request->getPost('name_en'));
+            $name_it = trim((string)$this->request->getPost('name_it'));
             
-            // Perbarui slug otomatis juga
             $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $name)));
 
             if (!empty($name) && !empty($id)) {
                 $this->categoryModel->update($id, [
-                    'name' => $name,
-                    'slug' => $slug
+                    'name'    => $name,
+                    'name_en' => $name_en,
+                    'name_it' => $name_it,
+                    'slug'    => $slug
                 ]);
                 return redirect()->to(site_url('admin/categories'))->with('success', 'Kategori berhasil diperbarui!');
             }
         }
         return redirect()->back()->with('error', 'Gagal memperbarui kategori.');
     }
+
     public function delete($id)
     {
         if ($this->categoryModel->delete($id)) {

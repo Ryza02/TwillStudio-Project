@@ -6,9 +6,9 @@ use CodeIgniter\Model;
 
 class ProjectGalleryModel extends Model
 {
-    protected $table            = 'project_galleries'; // Pastikan nama tabelnya sesuai di database kamu
+    protected $table            = 'project_galleries';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
-    protected $allowedFields    = ['project_id', 'image_url'];
+    protected $allowedFields    = ['project_id', 'image_url', 'sort_order'];
 }

@@ -2,12 +2,7 @@
 
 use CodeIgniter\Router\RouteCollection;
 
-/**
- * @var RouteCollection $routes
- */
-
 $routes->setDefaultNamespace('App\Controllers');
-$routes->setDefaultController('Home');
 $routes->setDefaultController('Home');
 $routes->setDefaultMethod('index');
 $routes->setTranslateURIDashes(false);
@@ -56,5 +51,18 @@ $routes->group('admin', ['filter' => 'authGuard'], static function ($routes) {
     $routes->get('gallery/(:num)', 'Project::gallery/$1');
     $routes->post('gallery/upload/(:num)', 'Project::uploadGallery/$1');
     $routes->get('gallery/delete/(:num)', 'Project::deleteGallery/$1');
+    $routes->post('gallery/reorder', 'Project::reorderGallery');
+
+    $routes->get('about', 'AboutAdmin::index');
+    $routes->post('about/updateHero', 'AboutAdmin::updateHero');
+    $routes->post('about/updateOrder', 'AboutAdmin::updateOrder');
+    
+    $routes->get('about/createItem', 'AboutAdmin::createItem');
+    $routes->post('about/saveItem', 'AboutAdmin::saveItem');
+    
+    $routes->get('about/editItem/(:num)', 'AboutAdmin::editItem/$1');
+    $routes->post('about/updateItem/(:num)', 'AboutAdmin::updateItem/$1');
+    
+    $routes->get('about/deleteItem/(:num)', 'AboutAdmin::deleteItem/$1');
 
 });

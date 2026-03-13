@@ -1,7 +1,3 @@
-/* ============================================
-   TWILL ADMIN LAYOUT - Sidebar & Base Structure
-   ============================================ */
-
 :root {
     --bg-primary: #f8fafc;
     --bg-secondary: #ffffff;
@@ -327,26 +323,12 @@ body {
     padding: 32px;
 }
 
-/* ============================================
-   RESPONSIVE
-   ============================================ */
-@media (max-width: 1024px) {
-    :root {
-        --sidebar-width: 260px;
-    }
-
-    .admin-content {
-        padding: 24px;
-    }
-}
-
 @media (max-width: 768px) {
-    :root {
-        --sidebar-width: 0px;
-    }
-
     .admin-sidebar {
+        width: 280px;
         transform: translateX(-100%);
+        z-index: 999;
+        box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
     }
 
     .admin-sidebar.mobile-open {
@@ -355,6 +337,7 @@ body {
 
     .admin-main {
         margin-left: 0;
+        width: 100%;
     }
 
     .admin-header {
