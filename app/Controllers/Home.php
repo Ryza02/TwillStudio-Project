@@ -150,12 +150,4 @@ class Home extends BaseController
             'lang'  => $lang
         ]);
     }
-
-    public function contact()
-    {
-        return view('frontend/contact', [
-            'title' => 'Hubungi Kami | TWILL Studio',
-            'lang'  => session()->get('lang') ?? 'id'
-        ]);
-    }
 }

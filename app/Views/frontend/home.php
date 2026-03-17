@@ -7,19 +7,19 @@
 
     <section class="hero-carousel">
         <div class="carousel-wrapper">
-            <div class="carousel-slide active" style="background-image: url('<?= base_url('assets/images/h1.jpg'); ?>');">
+            <div class="carousel-slide active" style="background-image: url('<?= base_url('/assets/images/h1.jpg'); ?>');">
                 <div class="carousel-overlay"></div>
             </div>
-            <div class="carousel-slide" style="background-image: url('<?= base_url('assets/images/h2.jpg'); ?>');">
+            <div class="carousel-slide" style="background-image: url('<?= base_url('/assets/images/h2.jpg'); ?>');">
                 <div class="carousel-overlay"></div>
             </div>
-            <div class="carousel-slide" style="background-image: url('<?= base_url('assets/images/h3.jpg'); ?>');">
+            <div class="carousel-slide" style="background-image: url('<?= base_url('/assets/images/h3.jpg'); ?>');">
                 <div class="carousel-overlay"></div>
             </div>
-            <div class="carousel-slide" style="background-image: url('<?= base_url('assets/images/h4.jpg'); ?>');">
+            <div class="carousel-slide" style="background-image: url('<?= base_url('/assets/images/h4.jpg'); ?>');">
                 <div class="carousel-overlay"></div>
             </div>
-            <div class="carousel-slide" style="background-image: url('<?= base_url('assets/images/h5.jpg'); ?>');">
+            <div class="carousel-slide" style="background-image: url('<?= base_url('/assets/images/h5.jpg'); ?>');">
                 <div class="carousel-overlay"></div>
             </div>
         </div>

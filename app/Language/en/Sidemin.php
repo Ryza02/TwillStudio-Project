@@ -208,19 +208,59 @@ return [
     'deletePhotoConfirm'  => 'Delete Photo?',
     'cannotBeUndone'      => 'This action cannot be undone.',
     'yesDelete'           => 'Yes, Delete',
-    'warning'             => 'Warning',
     'invalidFilesDesc'    => 'invalid files (not an image or > 10MB)',
     'validFile'           => 'Valid File',
     'imagesReadyToUpload' => 'images ready to upload',
     'validationFailed'    => 'Validation Failed',
     'selectMinOneImage'   => 'Select at least 1 image to upload.',
     'noValidImageFiles'   => 'No valid image files.',
-    'processing'          => 'Processing',
     'uploading'           => 'Uploading',
     'images'              => 'images',
-    'success'             => 'Success',
     'photoDeleted'        => 'Photo deleted successfully.',
-    'failed'              => 'Failed',
     'failedDeletePhoto'   => 'Failed to delete photo. Please try again.',
-    'error'               => 'Error',
+
+    // Header & General
+    'manage_categories'       => 'Manage Categories',
+    'category_subtitle'       => 'Manage category data for the system',
+    'add_category'            => 'Add Category',
+    'add_new_category'        => 'Add New Category',
+    
+    // Modal Form
+    'category_name_id'        => 'Category Name (ID)',
+    'category_name_en'        => 'Category Name (EN)',
+    'category_name_it'        => 'Category Name (IT)',
+    'translate'               => 'Translate',
+    'cancel'                  => 'Cancel',
+    'save_category'           => 'Save Category',
+    'edit_category'           => 'Edit Category',
+    'update_category'         => 'Update Category',
+    
+    // Delete Modal
+    'delete_category_confirm' => 'Confirm Delete Category',
+    'action_cannot_be_undone' => 'This action cannot be undone.',
+    'category_to_delete'      => 'Category to delete:',
+    'warning_label'           => 'Warning',
+    'category_delete_warning' => 'Deleting this category may affect linked data.',
+    'yes_delete'              => 'Yes, Delete',
+    'deleting'                => 'Deleting...',
+    
+    // Table
+    'table_no'                => 'No',
+    'table_category_id'       => 'Category (ID)',
+    'table_category_en'       => 'Category (EN)',
+    'table_category_it'       => 'Category (IT)',
+    'table_actions'           => 'Actions',
+    'delete_category'         => 'Delete Category',
+    
+    // Empty State
+    'no_category_yet'         => 'No Categories Yet',
+    'start_adding_category'   => 'Start adding a new category to the system.',
+    
+    // Alerts / Notifications / JS
+    'processing'              => 'Processing',
+    'success'                 => 'Success',
+    'error'                   => 'Error',
+    'failed'                  => 'Failed',
+    'category_deleted'        => 'Category successfully deleted.',
+    'failed_delete_category'  => 'An error occurred, failed to delete category.',
 ];

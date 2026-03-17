@@ -225,4 +225,49 @@ return [
     'failed'              => 'Fallito',
     'failedDeletePhoto'   => 'Impossibile eliminare la foto. Riprova.',
     'error'               => 'Errore',
+
+    // Header & Generale
+    'manage_categories'       => 'Gestisci Categorie',
+    'category_subtitle'       => 'Gestisci i dati delle categorie per il sistema',
+    'add_category'            => 'Aggiungi Categoria',
+    'add_new_category'        => 'Aggiungi Nuova Categoria',
+    
+    // Modulo Form
+    'category_name_id'        => 'Nome Categoria (ID)',
+    'category_name_en'        => 'Nome Categoria (EN)',
+    'category_name_it'        => 'Nome Categoria (IT)',
+    'translate'               => 'Traduci',
+    'cancel'                  => 'Annulla',
+    'save_category'           => 'Salva Categoria',
+    'edit_category'           => 'Modifica Categoria',
+    'update_category'         => 'Aggiorna Categoria',
+    
+    // Modale Elimina
+    'delete_category_confirm' => 'Conferma Eliminazione Categoria',
+    'action_cannot_be_undone' => 'Questa azione non può essere annullata.',
+    'category_to_delete'      => 'Categoria da eliminare:',
+    'warning_label'           => 'Avvertenza',
+    'category_delete_warning' => 'L\'eliminazione di questa categoria potrebbe influire sui dati collegati.',
+    'yes_delete'              => 'Sì, Elimina',
+    'deleting'                => 'Eliminazione...',
+    
+    // Tabella
+    'table_no'                => 'N.',
+    'table_category_id'       => 'Categoria (ID)',
+    'table_category_en'       => 'Categoria (EN)',
+    'table_category_it'       => 'Categoria (IT)',
+    'table_actions'           => 'Azioni',
+    'delete_category'         => 'Elimina Categoria',
+    
+    // Stato Vuoto
+    'no_category_yet'         => 'Nessuna Categoria Ancora',
+    'start_adding_category'   => 'Inizia ad aggiungere una nuova categoria al sistema.',
+    
+    // Avvisi / Notifiche / JS
+    'processing'              => 'Elaborazione',
+    'success'                 => 'Successo',
+    'error'                   => 'Errore',
+    'failed'                  => 'Fallito',
+    'category_deleted'        => 'Categoria eliminata con successo.',
+    'failed_delete_category'  => 'Si è verificato un errore, impossibile eliminare la categoria.',
 ];

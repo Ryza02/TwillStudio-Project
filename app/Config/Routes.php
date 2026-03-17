@@ -14,7 +14,8 @@ $routes->get('projects', 'Home::projects');
 $routes->get('project/(:num)', 'Home::projectDetail/$1');
 $routes->get('blog', 'Home::blog');
 $routes->get('blog/(:segment)', 'Home::blogDetail/$1');
-$routes->get('contact', 'Home::contact');
+$routes->get('contact', 'Contact::contact');
+$routes->post('contact/send_inquiry', 'Contact::send_inquiry');
 $routes->get('lang/switch/(:any)', 'LanguageController::switch/$1');
 
 $routes->match(['get', 'post'], 'admin/login', 'Admin::login');

@@ -217,5 +217,48 @@ return [
     'photoDeleted'        => 'Foto berhasil dihapus.',
     'failedDeletePhoto'   => 'Gagal menghapus foto. Silakan coba lagi.',
 
-
+    // Header & Umum
+    'manage_categories'       => 'Kelola Kategori',
+    'category_subtitle'       => 'Manajemen data kategori untuk sistem',
+    'add_category'            => 'Tambah Kategori',
+    'add_new_category'        => 'Tambah Kategori Baru',
+    
+    // Form Modal
+    'category_name_id'        => 'Nama Kategori (ID)',
+    'category_name_en'        => 'Nama Kategori (EN)',
+    'category_name_it'        => 'Nama Kategori (IT)',
+    'translate'               => 'Terjemahkan',
+    'cancel'                  => 'Batal',
+    'save_category'           => 'Simpan Kategori',
+    'edit_category'           => 'Edit Kategori',
+    'update_category'         => 'Perbarui Kategori',
+    
+    // Modal Hapus
+    'delete_category_confirm' => 'Konfirmasi Hapus Kategori',
+    'action_cannot_be_undone' => 'Tindakan ini tidak dapat dibatalkan.',
+    'category_to_delete'      => 'Kategori yang akan dihapus:',
+    'warning_label'           => 'Peringatan',
+    'category_delete_warning' => 'Menghapus kategori ini mungkin akan memengaruhi data yang terhubung dengannya.',
+    'yes_delete'              => 'Ya, Hapus',
+    'deleting'                => 'Menghapus...',
+    
+    // Tabel
+    'table_no'                => 'No',
+    'table_category_id'       => 'Kategori (ID)',
+    'table_category_en'       => 'Kategori (EN)',
+    'table_category_it'       => 'Kategori (IT)',
+    'table_actions'           => 'Aksi',
+    'delete_category'         => 'Hapus Kategori',
+    
+    // Empty State (Data Kosong)
+    'no_category_yet'         => 'Belum Ada Kategori',
+    'start_adding_category'   => 'Mulai tambahkan kategori baru ke dalam sistem.',
+    
+    // Alert / Notifikasi / JS
+    'processing'              => 'Memproses',
+    'success'                 => 'Sukses',
+    'error'                   => 'Kesalahan',
+    'failed'                  => 'Gagal',
+    'category_deleted'        => 'Kategori berhasil dihapus.',
+    'failed_delete_category'  => 'Terjadi kesalahan, gagal menghapus kategori.',
 ];
